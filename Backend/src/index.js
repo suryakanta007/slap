@@ -5,14 +5,24 @@ import {ENV} from "./config/env.js";
 
 
 
+
 dotenv.config();
-connectDB()
-.then(()=>{
-    app.listen(ENV.PORT,()=>{
-        console.log(`Server is running on port ${ENV.PORT}`);
-    })
-})
-.catch((error)=>{
-    console.log("MongoDB connection Failed ");
-    process.exit(1);
-})
+
+
+const startServer = async ()=>{
+    try {
+        await connectDB();
+        if(ENV.NODE_ENV !== "production"){
+            app.listen(ENV.PORT,()=>{
+                console.log("Server started on port:" , ENV.PORT)
+            })
+        }
+    } catch (error) {
+        console.log("Error starting server :",error);
+        process.exit(1);
+    }
+}
+
+startServer();
+
+export default app ; 
