@@ -2,13 +2,12 @@ import app from "./app.js";
 import dotenv from "dotenv";
 import connectDB from "./DB/index.js";
 import {ENV} from "./config/env.js";
-
-
-
+import "../instrument.mjs";  
+import * as Sentry from "@sentry/node";
 
 dotenv.config();
 
-
+Sentry.setupExpressErrorHandler(app);
 const startServer = async ()=>{
     try {
         await connectDB();
