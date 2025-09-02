@@ -6,6 +6,8 @@ import { deleteStreamUser, upsertStreamUser } from "./stream.js";
 
 export const inngest = new Inngest({id:"slack-clone"});
 
+
+
 const  syncUser = inngest.createFunction(
     {id:"sync-user"},
     {event:"clerk/user.created"},
@@ -16,12 +18,14 @@ const  syncUser = inngest.createFunction(
 
         const newUser = {
             clerkId:id,
-            email:email_addresses[0]?.email_addresses,
+            email:email_addresses[0]?.email_address,
             name:`${first_name||""} ${last_name||""}`,
             image:image_url
         }
+        console.log("Working on user",newUser);
 
-        await User.create(newUser);
+        const temp = await User.create(newUser);
+        console.log(temp)
         
         await upsertStreamUser({
           id:newUser.clerkId,
