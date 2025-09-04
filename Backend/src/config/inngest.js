@@ -22,10 +22,10 @@ const  syncUser = inngest.createFunction(
             name:`${first_name||""} ${last_name||""}`,
             image:image_url
         }
-        console.log("Working on user",newUser);
-
-        const temp = await User.create(newUser);
-        console.log(temp)
+        
+      
+        await User.create(newUser);
+        
         
         await upsertStreamUser({
           id:newUser.clerkId,
